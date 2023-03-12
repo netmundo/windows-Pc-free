@@ -1,0 +1,30 @@
+name: WindowsCRD
+
+on: 
+  workflow_dispatch:
+    inputs:
+      authcode:
+        description: 'Enter CRD code'
+        required: true
+      pincode:
+        description: 'Six digit Pin'
+        required: true
+        default: '123456'
+  
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 9999
+ 
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download 
+      run: ./setup.ps1
+    - name: Setup
+      run: ${{ github.event.inputs.authcode }} -pin=${{ github.event.inputs.pincode }}
+    - name: .
+      run: cmd /c wallpaper.bat
+    - name: Done
+      run: cmd /c wallpaper.bat
+    - name: Done
+      run: ./loop.ps1
